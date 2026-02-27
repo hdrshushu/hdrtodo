@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <title>Vibe To-Do</title>
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', '-apple-system', 'system-ui', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+            },
+            colors: {
+              surface: {
+                light: '#f9fafb',
+                dark: '#050816',
+              },
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100 antialiased"
+  >
+    <div class="min-h-screen flex items-stretch justify-center px-4 py-10">
+      <div
+        class="w-full max-w-6xl bg-slate-950/70 border border-slate-800/80 shadow-[0_32px_120px_rgba(15,23,42,0.75)] rounded-3xl backdrop-blur-xl overflow-hidden flex flex-col"
+      >
+        <!-- 顶部栏 -->
+        <header
+          class="flex items-center justify-between px-8 pt-6 pb-4 border-b border-slate-800/80"
+        >
+          <div>
+            <div class="flex items-center gap-2">
+              <div
+                class="h-7 w-7 rounded-2xl bg-slate-100 text-slate-900 flex items-center justify-center text-xs font-semibold"
+              >
+                V
+              </div>
+              <h1 class="text-lg font-semibold tracking-tight">
+                Vibe To-Do
+              </h1>
+            </div>
+            <p class="mt-1 text-xs text-slate-400">
+              把“大块任务”稳步推进，同时优雅处理每天的琐碎。
+            </p>
+          </div>
+          <div class="flex items-center gap-3 text-xs text-slate-400">
+            <span
+              class="inline-flex items-center gap-1 rounded-full border border-slate-700/70 px-3 py-1"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+              极简 · 本地优先
+            </span>
+          </div>
+        </header>
+
+        <!-- 输入区 -->
+        <section
+          class="px-8 pt-5 pb-3 border-b border-slate-800/80 grid grid-cols-1 md:grid-cols-[minmax(0,2.1fr)_minmax(0,1.3fr)] gap-4"
+        >
+          <!-- 新建大块任务 -->
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center justify-between mb-1">
+              <h2 class="text-xs font-medium tracking-[0.16em] text-slate-400 uppercase">
+                Big Rocks
+              </h2>
+              <span class="text-[11px] text-slate-500">
+                长期目标 · 可拆解
+              </span>
+            </div>
+            <div
+              class="group flex items-center gap-2 rounded-2xl border border-slate-800 bg-slate-900/40 px-3 py-2.5 focus-within:border-slate-500/80 transition-colors"
+            >
+              <div
+                class="flex h-7 w-7 items-center justify-center rounded-xl border border-slate-700/80 text-slate-300 text-base leading-none"
+              >
+                +
+              </div>
+              <div class="flex-1 flex flex-col gap-1">
+                <input
+                  id="big-rock-input"
+                  type="text"
+                  class="w-full bg-transparent text-sm placeholder-slate-500 focus:outline-none"
+                  placeholder="输入一个你想稳步推进的大方向（回车添加）"
+                />
+                <input
+                  id="big-rock-note-input"
+                  type="text"
+                  class="w-full bg-transparent text-[11px] text-slate-300 placeholder-slate-600 focus:outline-none"
+                  placeholder="可选：一句话描述，例如「半年内把平均睡眠提高到 7 小时」"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- 新建琐碎任务 -->
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center justify-between mb-1">
+              <h2 class="text-xs font-medium tracking-[0.16em] text-slate-400 uppercase">
+                Tiny Tasks
+              </h2>
+              <span class="text-[11px] text-slate-500">
+                今天随手记 · 快速勾
+              </span>
+            </div>
+            <div
+              class="group flex items-center gap-2 rounded-2xl border border-slate-800 bg-slate-900/40 px-3 py-2.5 focus-within:border-slate-500/80 transition-colors"
+            >
+              <div
+                class="flex h-7 w-7 items-center justify-center rounded-xl border border-slate-700/80 text-slate-300 text-base leading-none"
+              >
+                +
+              </div>
+              <input
+                id="tiny-task-input"
+                type="text"
+                class="w-full bg-transparent text-sm placeholder-slate-500 focus:outline-none"
+                placeholder="输入今天的一个小动作（回车添加）"
+              />
+            </div>
+          </div>
+        </section>
+
+        <!-- 主体布局 -->
+        <main
+          class="flex-1 px-6 md:px-8 py-4 grid grid-cols-1 md:grid-cols-[minmax(0,2.1fr)_minmax(0,1.3fr)] gap-2 md:gap-4"
+        >
+          <!-- 大块任务列 -->
+          <section
+            class="rounded-3xl border border-slate-800/80 bg-gradient-to-b from-slate-950/60 to-slate-900/40 px-3 md:px-5 py-4 md:py-5 flex flex-col gap-3"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span
+                  class="inline-flex h-6 w-6 items-center justify-center rounded-xl bg-slate-800/80 text-[11px] text-slate-200"
+                >
+                  BR
+                </span>
+                <span class="text-xs text-slate-400">
+                  将长期目标拆成可执行的下一步
+                </span>
+              </div>
+              <button
+                id="collapse-all-big-rocks"
+                class="hidden md:inline-flex items-center gap-1 rounded-full border border-slate-700/80 px-3 py-1 text-[11px] text-slate-300 hover:border-slate-500/80 hover:text-slate-100 transition-colors"
+              >
+                折叠全部
+              </button>
+            </div>
+
+            <div
+              id="big-rocks-empty"
+              class="mt-4 rounded-2xl border border-dashed border-slate-800/90 bg-slate-900/40 px-4 py-5 text-xs text-slate-400"
+            >
+              给自己一个方向。比如：
+              <span class="text-slate-300">
+                「提升英语输出」「重启运动习惯」「完成一次长途旅行」…
+              </span>
+            </div>
+
+            <div id="big-rocks-list" class="mt-1 flex flex-col gap-3 text-sm"></div>
+          </section>
+
+          <!-- 琐碎任务列 -->
+          <section
+            class="rounded-3xl border border-slate-800/80 bg-slate-950/70 px-3 md:px-4 py-4 md:py-5 flex flex-col"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <span
+                  class="inline-flex h-6 w-6 items-center justify-center rounded-xl bg-slate-800/80 text-[11px] text-slate-200"
+                >
+                  TT
+                </span>
+                <span class="text-xs text-slate-400">
+                  专注今天，随手记、随手划掉
+                </span>
+              </div>
+              <button
+                id="clear-completed-tiny"
+                class="text-[11px] text-slate-500 hover:text-slate-200 transition-colors"
+              >
+                清除已完成
+              </button>
+            </div>
+
+            <div
+              id="tiny-empty"
+              class="mt-1 rounded-2xl border border-dashed border-slate-800/90 bg-slate-950/40 px-3 py-3 text-[11px] text-slate-500"
+            >
+              输入一个「只需要 2 分钟」的小动作，比如：
+              <span class="text-slate-300">
+                「回个微信」「发一封确认邮件」「喝一杯水」…
+              </span>
+            </div>
+
+            <div
+              id="tiny-tasks-list"
+              class="mt-1 space-y-1.5 overflow-y-auto pr-1"
+              style="max-height: 360px"
+            ></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="./main.js"></script>
+  </body>
+</html>
+
